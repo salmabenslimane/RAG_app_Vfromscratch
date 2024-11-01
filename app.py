@@ -1,13 +1,18 @@
-
-
-
-
 import streamlit as st 
 from dotenv import load_dotenv
+from PyPDF2 import PdfReader
+
+
 
 
 def get_pdf_text (PDFs):
-    Text = ''
+   #takes a list of pdf files and returns a str with all of the content 
+    Text =''
+    for pdf in PDFS: #loop through pdfs uploaded
+        pdf_reader = PdfReader(pdf) #creates an object with pages
+        for page in pdf_reader.pages:
+            Text = page.extract_text()
+   return Text
 
 def main():
    load_dotenv() #link to secrets in .env
