@@ -8,6 +8,11 @@ def main():
    st.header("Hi, my name is KOJO :books:")
    st.text_input("Ask about your pdf")
 
+   with st.sidebar: 
+       st.subheader('hhhhhhhhhhhhhhh')
+       
+
+       
 
 
 
