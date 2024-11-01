@@ -3,6 +3,9 @@
 
 
 import streamlit as st 
+from dotenv import load_dotenv
+load_dotenv()
+
 def main():
    #st.set_page_config(page_title='Hi, my name is KOJO', page_icon=':books:')
    st.header("Hi, my name is KOJO :books:")
