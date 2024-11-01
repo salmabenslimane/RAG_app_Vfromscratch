@@ -3,4 +3,4 @@ Building the pdfs chatbot from scratch with streamlit x huggingface LLM, without
 
 
 Logic of the app: 
-PDFs --- Chunks of text --- Embeddings --- Embedding vector database (pinecone, faissu ...) --- Ranked results of the semantic search --- LLM --- Answer 
+PDFs --->  Chunks of text --->  Embeddings --- > Embedding vector database (pinecone, faissu ...) --- > Ranked results of the semantic search --- > LLM --- > Answer 
