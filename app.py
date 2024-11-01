@@ -10,7 +10,7 @@ def main():
 
    with st.sidebar: 
        st.subheader('hhhhhhhhhhhhhhh')
-       
+       st.file_uploader('Upload your PDFs here')
 
        
 
