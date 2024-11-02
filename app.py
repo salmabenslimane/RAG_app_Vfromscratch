@@ -59,13 +59,16 @@ def main():
    if "chat_history" not in st.session_state:
         st.session_state.chat_history = None
     #if the conversation chain and the memory of the chatbot are already initialized, it doesn't do anyth to them when refreshing
-
+   st.write(css, unsafe_allow_html=True)
 
    st.set_page_config(page_title='Kojo, medical assistant ', page_icon=':books:')
    st.header("Hi, my name is Kojo :books:")
    st.subheader('Designed to help with medical results!')
    st.text_input("Upload your medical results")
-
+   st.write(user_template, unsafe_allow_html= True)
+   st.write(bot_template.replace("{{MSG}}", "HELLO, how can i help you today?"))
+   
+   
    with st.sidebar: 
        st.subheader('Made by Salma Benslimane')
        PDFs = st.file_uploader('Upload your PDFs here', accept_multiple_files=True)
