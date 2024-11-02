@@ -37,7 +37,7 @@ def get_vectorstore(text_chunks):
     vectorstore = FAISS.from_texts(texts=text_chunks, embedding=embeddings) #problem with faissu while deploying
     return vectorstore
     
-#go back to this one 
+#go back to this one ;)
 def get_conversation_chain(vectorstore):
     memory = ConversationBufferMemory(memory_key= 'chat history', return_messages= True)
     LLM = HuggingFaceHub(repo_id="microsoft/Phi-3.5-mini-instruct", model_kwargs={"temperature":0.7, "max_length":512})
@@ -53,9 +53,13 @@ def get_conversation_chain(vectorstore):
 
 def main():
    load_dotenv() #link to secrets in .env
-
    #st.set_page_config(page_title='Hi, my name is KOJO', page_icon=':books:')
    #IDK WHY THIS LINE IS NOT WORKING
+   if "conversation" not in st.session_state:
+        st.session_state.conversation = None
+   if "chat_history" not in st.session_state:
+        st.session_state.chat_history = None
+    #if the conversation chain and the memory of the chatbot are already initialized, it doesn't do anyth to them
 
    st.header("Hi, my name is KOJO :books:")
    st.subheader('Created by Salma')
@@ -74,8 +78,10 @@ def main():
                 
                # vector base 
                 vectorstore = get_vectorstore(text_chunks)
-       
-                conversation = get_conversation_chain(vectorstore)
+
+                #conversation and retrieval
+                conversation = get_conversation_chain(vectorstore) #st.session_state.concersation if you want variable to not be initialized everytime with streamlit
+
 
 if __name__== '__main__':
     main()
