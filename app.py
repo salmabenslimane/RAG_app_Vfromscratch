@@ -1,6 +1,7 @@
 import streamlit as st 
 from dotenv import load_dotenv
 from PyPDF2 import PdfReader
+from langchain.text_splitter import CharacterTextSplitter
 
 
 
@@ -13,7 +14,9 @@ def get_pdf_text(PDFs): #takes a list of pdf files and returns a str with all of
             text = page.extract_text()
    return text
 
-
+def get_text_chunks(raw_text):
+    
+    
 
 def main():
    load_dotenv() #link to secrets in .env
@@ -31,9 +34,9 @@ def main():
            with st.spinner("Analyzing..."): #spins while loading answers
                # Récuperer le texte des pdfs  
                 raw_text = get_pdf_text(PDFs)
-                st.write(raw_text)
+                
                # text chunks
-
+               chunks = get_text_chunks(raw_text)
                # vector base 
 
        
