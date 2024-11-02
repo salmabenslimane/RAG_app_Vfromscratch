@@ -4,7 +4,8 @@ import pdfplumber
 from langchain.text_splitter import CharacterTextSplitter
 from langchain.embeddings import HuggingFaceInstructEmbeddings
 from langchain.vectorstores import FAISS
-
+from langchain.memory import ConversationBufferMemory
+from langchain.chains import ConversationalRetrievalChain
 
 
 
@@ -36,6 +37,19 @@ def get_vectorstore(text_chunks):
     vectorstore = FAISS.from_texts(texts=text_chunks, embedding=embeddings) #problem with faissu while deploying
     return vectorstore
     
+#go back to this one 
+def get_conversation_chain(vectorstore):
+    memory = ConversationBufferMemory(memory_key= 'chat history', return_messages= True)
+    LLM = HuggingFaceHub(repo_id="microsoft/Phi-3.5-mini-instruct", model_kwargs={"temperature":0.7, "max_length":512})
+    conversation_chain = ConversationalRetrievalChain.from_llm(
+        llm=LLM,
+        retriever=vectorstore.as_retriever(),
+        memory=memory
+    )
+    return conversation_chain
+
+
+
 
 def main():
    load_dotenv() #link to secrets in .env
@@ -44,6 +58,7 @@ def main():
    #IDK WHY THIS LINE IS NOT WORKING
 
    st.header("Hi, my name is KOJO :books:")
+   st.subheader('Created by Salma')
    st.text_input("Ask about your pdf")
 
    with st.sidebar: 
@@ -60,9 +75,7 @@ def main():
                # vector base 
                 vectorstore = get_vectorstore(text_chunks)
        
-
-
-
+                conversation = get_conversation_chain(vectorstore)
 
 if __name__== '__main__':
     main()
