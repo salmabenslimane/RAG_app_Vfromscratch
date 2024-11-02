@@ -19,7 +19,7 @@ def get_pdf_text(PDFs):
                     text += page_text + "\n"  # adding a newline for each page
     return text
 
-def get_text_chunks(text):  #change smth if you wanna read les analyses
+def get_text_chunks(text):  
     text_splitter = CharacterTextSplitter(
         separator="\n",
         chunk_size=1000,
@@ -33,7 +33,7 @@ def get_text_chunks(text):  #change smth if you wanna read les analyses
 # pip install InstructorEmbedding sentence_transformers (before)
 def get_vectorstore(text_chunks):
     embeddings = HuggingFaceInstructEmbeddings(model_name="hkunlp/instructor-xl")
-    vectorstore = FAISS.from_texts(texts=text_chunks, embedding=embeddings)
+    vectorstore = FAISS.from_texts(texts=text_chunks, embedding=embeddings) #problem with faissu while deploying
     return vectorstore
     
 
@@ -47,18 +47,18 @@ def main():
    st.text_input("Ask about your pdf")
 
    with st.sidebar: 
-       st.subheader('hhhhhhhhhhhhhhh')
+       st.subheader('Made by Salma Benslimane')
        PDFs = st.file_uploader('Upload your PDFs here', accept_multiple_files=True)
        if st.button('Analyse PDFs'):
            with st.spinner("Analyzing..."): #spins while loading answers
                # Récuperer le texte des pdfs  
                 raw_text = get_pdf_text(PDFs)
-                st.write(raw_text)
+                
                # text chunks
-                chunks = get_text_chunks(raw_text)
+                text_chunks = get_text_chunks(raw_text)
                 
                # vector base 
-
+                vectorstore = get_vectorstore(text_chunks)
        
 
 
