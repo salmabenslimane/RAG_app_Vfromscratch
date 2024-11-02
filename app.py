@@ -52,7 +52,17 @@ def get_conversation_chain(vectorstore):
 
 def handle_user_input(user_question):
     response = st.session_state.conversation({'question': user_question})
-    st.write(response)
+    #st.write(response) to diplay 
+    st.session_state.chat_history = response['chat_history']
+
+    for i, message in enumerate(st.session_state.chat_history):
+        if i % 2 == 0:
+            st.write(user_template.replace(
+                "{{MSG}}", message.content), unsafe_allow_html=True)
+        else:
+            st.write(bot_template.replace(
+                "{{MSG}}", message.content), unsafe_allow_html=True)
+
 
 def main():
    st.set_page_config(page_title='Kojo, medical assistant', page_icon="random")
