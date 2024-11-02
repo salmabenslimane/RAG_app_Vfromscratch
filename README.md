@@ -8,4 +8,5 @@ PDFs --->  Chunks of text --->  Embeddings --- > Embedding vector database (pine
 
 text chunks level (problems):
 - deployement on streamlit 
-- instructor for embeddings
+- instructor for embeddings works good (check commit history)
+- LLM?
