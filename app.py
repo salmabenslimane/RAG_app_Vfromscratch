@@ -60,7 +60,7 @@ def main():
         st.session_state.conversation = None
    if "chat_history" not in st.session_state:
         st.session_state.chat_history = None
-    #if the conversation chain and the memory of the chatbot are already initialized, it doesn't do anyth to them
+    #if the conversation chain and the memory of the chatbot are already initialized, it doesn't do anyth to them when refreshing
 
 
    #st.set_page_config(page_title='Hi, my name is KOJO', page_icon=':books:')
