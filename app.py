@@ -2,7 +2,8 @@ import streamlit as st
 from dotenv import load_dotenv
 from PyPDF2 import PdfReader
 from langchain.text_splitter import CharacterTextSplitter
-
+from langchain.embeddings import HuggingFaceInstructEmbeddings
+from langchain.vectorstores import FAISS
 
 
 
@@ -14,8 +15,20 @@ def get_pdf_text(PDFs): #takes a list of pdf files and returns a str with all of
             text = page.extract_text()
    return text
 
-def get_text_chunks(raw_text):
-    
+def get_text_chunks(text):
+    text_splitter = CharacterTextSplitter(
+        separator="\n",
+        chunk_size=1000,
+        chunk_overlap=200,
+        length_function=len
+    )
+    chunks = text_splitter.split_text(text)
+    return chunks
+
+def get_vectorstore(text_chunks):
+    embeddings = HuggingFaceInstructEmbeddings(model_name="hkunlp/instructor-xl")
+    vectorstore = FAISS.from_texts(texts=text_chunks, embedding=embeddings)
+    return vectorstore
     
 
 def main():
@@ -36,7 +49,8 @@ def main():
                 raw_text = get_pdf_text(PDFs)
                 
                # text chunks
-               chunks = get_text_chunks(raw_text)
+                chunks = get_text_chunks(raw_text)
+                st.write(chunks)
                # vector base 
 
        
