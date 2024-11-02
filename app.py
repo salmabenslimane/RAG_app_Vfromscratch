@@ -7,7 +7,7 @@ from langchain.vectorstores import FAISS
 from langchain.memory import ConversationBufferMemory
 from langchain.chains import ConversationalRetrievalChain
 from langchain.llms import HuggingFaceHub
-from htmlTemplates import css, bot_template, user_template
+#from htmlTemplates import css, bot_template, user_template
 
 
 
@@ -63,11 +63,10 @@ def main():
     #if the conversation chain and the memory of the chatbot are already initialized, it doesn't do anyth to them when refreshing
 
 
-   #st.set_page_config(page_title='Hi, my name is KOJO', page_icon=':books:')
-   #IDK WHY THIS LINE IS NOT WORKING
+   st.set_page_config(page_title='Kojo, medical assistant ', page_icon=':books:')
    st.header("Hi, my name is Kojo :books:")
-   st.subheader('Created by Salma')
-   st.text_input("Ask about your pdf")
+   st.subheader('Designed to help with medical results!')
+   st.text_input("Upload your medical results")
 
    with st.sidebar: 
        st.subheader('Made by Salma Benslimane')
