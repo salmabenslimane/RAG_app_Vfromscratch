@@ -10,8 +10,6 @@ from langchain.llms import HuggingFaceHub
 #from htmlTemplates import css, bot_template, user_template
 
 
-
-
 def get_pdf_text(PDFs):
     # Takes a list of PDF files and returns a string with all of the content
     text = ''
@@ -23,6 +21,7 @@ def get_pdf_text(PDFs):
                     text += page_text + "\n"  # adding a newline for each page
     return text
 
+
 def get_text_chunks(text):  
     text_splitter = CharacterTextSplitter(
         separator="\n",
@@ -32,7 +31,6 @@ def get_text_chunks(text):
     )
     chunks = text_splitter.split_text(text)
     return chunks
-
 
 # pip install InstructorEmbedding sentence_transformers (before)
 def get_vectorstore(text_chunks):
@@ -83,7 +81,7 @@ def main():
                 vectorstore = get_vectorstore(text_chunks)
 
                 #conversation and retrieval
-                conversation = get_conversation_chain(vectorstore) #st.session_state.concersation if you want variable to not be initialized everytime with streamlit
+                conversation_chain = get_conversation_chain(vectorstore) #st.session_state.concersation if you want variable to not be initialized everytime with streamlit
 
 
 if __name__== '__main__':
