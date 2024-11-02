@@ -50,13 +50,13 @@ def get_conversation_chain(vectorstore):
     return conversation_chain
 
 
-def handle_user_input(user_question):
+def handle_user_input(user_question): #it works and i have no idea why  
     response = st.session_state.conversation({'question': user_question})
     #st.write(response) to diplay 
     st.session_state.chat_history = response['chat_history']
 
     for i, message in enumerate(st.session_state.chat_history):
-        if i % 2 == 0:
+        if i % 2 == 0: #odd numbers 
             st.write(user_template.replace(
                 "{{MSG}}", message.content), unsafe_allow_html=True)
         else:
@@ -69,22 +69,22 @@ def main():
    load_dotenv() #link to secrets in .env
    st.write(css, unsafe_allow_html=True)
 
+   
    if "conversation" not in st.session_state:
         st.session_state.conversation = None
    if "chat_history" not in st.session_state:
         st.session_state.chat_history = None
-    #if the conversation chain and the memory of the chatbot are already initialized, it doesn't do anyth to them when refreshing
-   st.write(css, unsafe_allow_html=True)
-
+    #if the conversation chain and the memory of the chatbot are already initialized, it doesn't do anyth to them when refreshing, but you have to initialize session_state before using it
    
+   st.write(css, unsafe_allow_html=True)
    st.header("Hi, my name is Kojo :books:")
    st.subheader('Designed to help with medical results!')
    user_question = st.text_input("Upload your medical results")
+   
+   st.write(user_template.replace("{{MSG}}","You better get me a fkng internship"), unsafe_allow_html= True)
+   st.write(bot_template.replace("{{MSG}}","Hello, how can i help you today?"), unsafe_allow_html=True)
    if user_question: 
        handle_user_input(user_question)
-   #st.write(user_template.replace("{{MSG}}","You better get me a fkng internship"), unsafe_allow_html= True)
-   st.write(bot_template.replace("{{MSG}}","Hello, how can i help you today?"), unsafe_allow_html=True)
-
    
    with st.sidebar: 
        st.subheader('Made by Salma Benslimane')
