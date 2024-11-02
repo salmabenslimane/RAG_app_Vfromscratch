@@ -6,6 +6,9 @@ from langchain.embeddings import HuggingFaceInstructEmbeddings
 from langchain.vectorstores import FAISS
 from langchain.memory import ConversationBufferMemory
 from langchain.chains import ConversationalRetrievalChain
+from langchain.llms import HuggingFaceHub
+from htmlTemplates import css, bot_template, user_template
+
 
 
 
@@ -49,19 +52,20 @@ def get_conversation_chain(vectorstore):
     return conversation_chain
 
 
-
-
 def main():
+   
    load_dotenv() #link to secrets in .env
-   #st.set_page_config(page_title='Hi, my name is KOJO', page_icon=':books:')
-   #IDK WHY THIS LINE IS NOT WORKING
+
    if "conversation" not in st.session_state:
         st.session_state.conversation = None
    if "chat_history" not in st.session_state:
         st.session_state.chat_history = None
     #if the conversation chain and the memory of the chatbot are already initialized, it doesn't do anyth to them
 
-   st.header("Hi, my name is KOJO :books:")
+
+   #st.set_page_config(page_title='Hi, my name is KOJO', page_icon=':books:')
+   #IDK WHY THIS LINE IS NOT WORKING
+   st.header("Hi, my name is Kojo :books:")
    st.subheader('Created by Salma')
    st.text_input("Ask about your pdf")
 
