@@ -50,9 +50,14 @@ def get_conversation_chain(vectorstore):
     return conversation_chain
 
 
+def handle_user_input(user_question):
+    response = st.session_state.conversation({'question': user_question})
+    st.write(response)
+
 def main():
    st.set_page_config(page_title='Kojo, medical assistant', page_icon="random")
    load_dotenv() #link to secrets in .env
+   st.write(css, unsafe_allow_html=True)
 
    if "conversation" not in st.session_state:
         st.session_state.conversation = None
@@ -64,9 +69,11 @@ def main():
    
    st.header("Hi, my name is Kojo :books:")
    st.subheader('Designed to help with medical results!')
-   st.text_input("Upload your medical results")
-   st.write(user_template.replace("{{MSG}}","hhhhhhhhhh"), unsafe_allow_html= True)
-   st.write(bot_template.replace("{{MSG}}","HELLO, how can i help you today?"), unsafe_allow_html=True)
+   user_question = st.text_input("Upload your medical results")
+   if user_question: 
+       handle_user_input(user_question)
+   #st.write(user_template.replace("{{MSG}}","You better get me a fkng internship"), unsafe_allow_html= True)
+   st.write(bot_template.replace("{{MSG}}","Hello, how can i help you today?"), unsafe_allow_html=True)
 
    
    with st.sidebar: 
