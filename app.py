@@ -1,21 +1,25 @@
 import streamlit as st 
 from dotenv import load_dotenv
-from PyPDF2 import PdfReader
+import pdfplumber 
 from langchain.text_splitter import CharacterTextSplitter
 from langchain.embeddings import HuggingFaceInstructEmbeddings
 from langchain.vectorstores import FAISS
 
 
 
-def get_pdf_text(PDFs): #takes a list of pdf files and returns a str with all of the content 
-   text =''
-   for pdf in PDFs: #loop through pdfs uploaded
-      pdf_reader = PdfReader(pdf) #creates an object with pages
-      for page in pdf_reader.pages:
-            text = page.extract_text()
-   return text
 
-def get_text_chunks(text):
+def get_pdf_text(PDFs):
+    # Takes a list of PDF files and returns a string with all of the content
+    text = ''
+    for pdf in PDFs:  # loop through the uploaded PDFs
+        with pdfplumber.open(pdf) as pdf_reader:
+            for page in pdf_reader.pages:
+                page_text = page.extract_text()
+                if page_text:
+                    text += page_text + "\n"  # adding a newline for each page
+    return text
+
+def get_text_chunks(text):  #change smth if you wanna read les analyses
     text_splitter = CharacterTextSplitter(
         separator="\n",
         chunk_size=1000,
@@ -49,10 +53,10 @@ def main():
            with st.spinner("Analyzing..."): #spins while loading answers
                # Récuperer le texte des pdfs  
                 raw_text = get_pdf_text(PDFs)
-                
+                st.write(raw_text)
                # text chunks
                 chunks = get_text_chunks(raw_text)
-                st.write(chunks)
+                
                # vector base 
 
        
