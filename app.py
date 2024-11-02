@@ -81,7 +81,7 @@ def main():
    st.subheader('Designed to help with medical results!')
    user_question = st.text_input("Upload your medical results")
 
-   st.write(user_template.replace("{{MSG}}","You better get me a fkng internship"), unsafe_allow_html= True)
+   #st.write(user_template.replace("{{MSG}}","You better get me a fkng internship"), unsafe_allow_html= True)
    st.write(bot_template.replace("{{MSG}}","Hello, how can i help you today?"), unsafe_allow_html=True)
    if user_question: 
        handle_user_input(user_question)
