@@ -25,6 +25,8 @@ def get_text_chunks(text):
     chunks = text_splitter.split_text(text)
     return chunks
 
+
+# pip install InstructorEmbedding sentence_transformers (before)
 def get_vectorstore(text_chunks):
     embeddings = HuggingFaceInstructEmbeddings(model_name="hkunlp/instructor-xl")
     vectorstore = FAISS.from_texts(texts=text_chunks, embedding=embeddings)
