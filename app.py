@@ -41,16 +41,16 @@ def get_vectorstore(text_chunks):
 #go back to this one ;)
 def get_conversation_chain(vectorstore):
     memory = ConversationBufferMemory(memory_key= 'chat history', return_messages= True)
-    LLM = HuggingFaceHub(repo_id="microsoft/Phi-3.5-mini-instruct", model_kwargs={"temperature":0.7, "max_length":512})
+    llm = HuggingFaceHub(repo_id="gemini/Modèle-Gemini-1.5-Flash", model_kwargs={"temperature":0.7, "max_length":512})
     conversation_chain = ConversationalRetrievalChain.from_llm(
-        llm=LLM,
+        llm=llm,
         retriever=vectorstore.as_retriever(),
         memory=memory
     )
     return conversation_chain
 
 
-def handle_user_input(user_question): #it works and i have no idea why  
+def handle_user_input(user_question): #it works and i have no idea why lol  
     response = st.session_state.conversation({'question': user_question})
     #st.write(response) to diplay 
     st.session_state.chat_history = response['chat_history']
@@ -80,7 +80,7 @@ def main():
    st.header("Hi, my name is Kojo :books:")
    st.subheader('Designed to help with medical results!')
    user_question = st.text_input("Upload your medical results")
-   
+
    st.write(user_template.replace("{{MSG}}","You better get me a fkng internship"), unsafe_allow_html= True)
    st.write(bot_template.replace("{{MSG}}","Hello, how can i help you today?"), unsafe_allow_html=True)
    if user_question: 
