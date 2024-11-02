@@ -51,7 +51,7 @@ def get_conversation_chain(vectorstore):
 
 
 def main():
-   
+   st.set_page_config(page_title='Kojo, medical assistant', page_icon="random")
    load_dotenv() #link to secrets in .env
 
    if "conversation" not in st.session_state:
@@ -61,13 +61,13 @@ def main():
     #if the conversation chain and the memory of the chatbot are already initialized, it doesn't do anyth to them when refreshing
    st.write(css, unsafe_allow_html=True)
 
-   st.set_page_config(page_title='Kojo, medical assistant ', page_icon=':books:')
+   
    st.header("Hi, my name is Kojo :books:")
    st.subheader('Designed to help with medical results!')
    st.text_input("Upload your medical results")
-   st.write(user_template, unsafe_allow_html= True)
-   st.write(bot_template.replace("{{MSG}}", "HELLO, how can i help you today?"))
-   
+   st.write(user_template.replace("{{MSG}}","hhhhhhhhhh"), unsafe_allow_html= True)
+   st.write(bot_template.replace("{{MSG}}","HELLO, how can i help you today?"), unsafe_allow_html=True)
+
    
    with st.sidebar: 
        st.subheader('Made by Salma Benslimane')
