@@ -1,5 +1,5 @@
 import streamlit as st 
-from dotenv import load_dotenv
+from dotenv import load_dotenv, find_dotenv
 import pdfplumber 
 from langchain.text_splitter import CharacterTextSplitter
 from langchain.embeddings import HuggingFaceInstructEmbeddings
@@ -66,7 +66,7 @@ def handle_user_input(user_question): #it works and i have no idea why lol
 
 def main():
    st.set_page_config(page_title='Kojo, medical assistant', page_icon="random")
-   load_dotenv() #link to secrets in .env
+   load_dotenv(find_dotenv(".env")) #link to secrets in .env
    st.write(css, unsafe_allow_html=True)
 
    
