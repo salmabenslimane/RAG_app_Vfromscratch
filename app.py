@@ -44,15 +44,15 @@ def get_conversation_chain(vectorstore):
     llm = HuggingFaceHub(repo_id="describeai/gemini",
                           model_kwargs={"temperature":0.7, "max_length":512},
                           huggingfacehub_api_token="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")
-    conversation_chain = ConversationalRetrievalChain.from_llm(
+    conversation = ConversationalRetrievalChain.from_llm(
         llm=llm,
         retriever=vectorstore.as_retriever(),
         memory=memory
     )
-    return conversation_chain
+    return conversation
 
 
-def handle_userinput(user_question):
+def handle_userinput(user_question, conversation):
     response = conversation({'question': user_question})
     st.session_state.chat_history = response['chat_history']
 
@@ -95,7 +95,7 @@ def main():
                 vectorstore = get_vectorstore(text_chunks)
 
                 # create conversation chain
-                conversation = get_conversation_chain(
+                st.session_state.conversation = get_conversation_chain(
                     vectorstore)
 if __name__== '__main__':
     main()
