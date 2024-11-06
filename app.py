@@ -51,6 +51,18 @@ def get_conversation_chain(vectorstore):
     )
     return conversation
 
+#go back to this one ;)
+def get_conversation_chain(vectorstore):
+    memory = ConversationBufferMemory(memory_key='chat_history', return_messages=True)
+    llm = HuggingFaceHub(repo_id="describeai/gemini",
+                         model_kwargs={"temperature": 0.7, "max_length": 512},
+                         huggingfacehub_api_token="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")
+    conversation = ConversationalRetrievalChain.from_llm(
+        llm=llm,
+        retriever=vectorstore.as_retriever(),
+        memory=memory
+    )
+    return conversation
 
 def handle_userinput(user_question, conversation):
     response = conversation({'question': user_question})
@@ -58,13 +70,10 @@ def handle_userinput(user_question, conversation):
 
     for i, message in enumerate(st.session_state.chat_history):
         if i % 2 == 0:
-            st.write(user_template.replace(
-                "{{MSG}}", message.content), unsafe_allow_html=True)
+            st.write(user_template.replace("{{MSG}}", message.content), unsafe_allow_html=True)
         else:
-            st.write(bot_template.replace(
-                "{{MSG}}", message.content), unsafe_allow_html=True)
+            st.write(bot_template.replace("{{MSG}}", message.content), unsafe_allow_html=True)
 
-   
 def main():
     st.set_page_config(page_title="Chat with multiple PDFs",
                        page_icon=":books:")
@@ -75,14 +84,18 @@ def main():
         st.session_state.chat_history = None
 
     st.header("Chat with multiple PDFs :books:")
-    user_question = st.text_input("Ask a question about your documents:")
-    if user_question:
-        handle_userinput(user_question)
+    
+    # Check if the conversation chain is created before taking input
+    if 'conversation' in st.session_state:
+        user_question = st.text_input("Ask a question about your documents:")
+        if user_question:
+            handle_userinput(user_question, st.session_state.conversation)
 
     with st.sidebar:
         st.subheader("Your documents")
         pdf_docs = st.file_uploader(
             "Upload your PDFs here and click on 'Process'", accept_multiple_files=True)
+        
         if st.button("Process"):
             with st.spinner("Processing"):
                 # get pdf text
@@ -94,9 +107,8 @@ def main():
                 # create vector store
                 vectorstore = get_vectorstore(text_chunks)
 
-                # create conversation chain
-                st.session_state.conversation = get_conversation_chain(
-                    vectorstore)
-if __name__== '__main__':
-    main()
+                # create conversation chain and store in session state
+                st.session_state.conversation = get_conversation_chain(vectorstore)
 
+if __name__ == '__main__':
+    main()
